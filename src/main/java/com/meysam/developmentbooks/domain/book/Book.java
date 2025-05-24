@@ -1,4 +1,4 @@
-package developmentbooks.domain.book;
+package com.meysam.developmentbooks.domain.book;
 
 public class Book {
 

@@ -1,6 +1,6 @@
-package developmentbooks.domain.shoppingbasket;
+package com.meysam.developmentbooks.domain.shoppingbasket;
 
-import developmentbooks.domain.book.Book;
+import com.meysam.developmentbooks.domain.book.Book;
 
 import java.util.*;
 

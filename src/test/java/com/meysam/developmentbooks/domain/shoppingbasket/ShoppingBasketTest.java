@@ -1,6 +1,9 @@
-package developmentbooks.domain.shoppingbasket;
+package com.meysam.developmentbooks.domain.shoppingbasket;
 
-import developmentbooks.domain.book.*;
+import com.meysam.developmentbooks.domain.book.*;
+import com.meysam.developmentbooks.domain.shoppingbasket.BasketId;
+import com.meysam.developmentbooks.domain.shoppingbasket.Quantity;
+import com.meysam.developmentbooks.domain.shoppingbasket.ShoppingBasket;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
@@ -12,7 +15,7 @@ class ShoppingBasketTest {
     @Test
     void createsBasketWithValidParameters() {
         BasketId basketId = new BasketId(1L);
-        HashMap<Book,Quantity> items = new HashMap<>();
+        HashMap<Book, Quantity> items = new HashMap<>();
         Quantity quantity1 = new Quantity(1);
         Book book = createTestBook();
 

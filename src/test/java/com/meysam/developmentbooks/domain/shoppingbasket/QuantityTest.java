@@ -1,5 +1,6 @@
-package developmentbooks.domain.shoppingbasket;
+package com.meysam.developmentbooks.domain.shoppingbasket;
 
+import com.meysam.developmentbooks.domain.shoppingbasket.Quantity;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

@@ -1,4 +1,4 @@
-package developmentbooks.domain.shoppingbasket;
+package com.meysam.developmentbooks.domain.shoppingbasket;
 
 public record Quantity(int value) {
 
