@@ -17,8 +17,8 @@ class BasketItemTest {
 
     @Test
     void throwsWhenBookOrQuantityIsNull() {
-        assertThrows(NullPointerException.class,()-> new BasketItem(null,new Quantity(1)));
-        assertThrows(NullPointerException.class,()-> new BasketItem(generateBook(),null));
+        assertThrows(IllegalArgumentException.class,()-> new BasketItem(null,new Quantity(1)));
+        assertThrows(IllegalArgumentException.class,()-> new BasketItem(generateBook(),null));
     }
 
     private Book generateBook() {
