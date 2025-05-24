@@ -1,10 +1,11 @@
 package com.meysam.developmentbooks.domain.shoppingbasket;
 
-import com.meysam.developmentbooks.domain.book.*;
+import com.meysam.developmentbooks.domain.book.Book;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 
+import static com.meysam.developmentbooks.utils.BookSamples.getSampleBook;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -15,7 +16,7 @@ class ShoppingBasketTest {
         BasketId basketId = new BasketId(1L);
         HashMap<Book, Quantity> items = new HashMap<>();
         Quantity quantity1 = new Quantity(1);
-        Book book = createTestBook();
+        Book book = getSampleBook(1);
 
         items.put(book,quantity1);
 
@@ -29,22 +30,12 @@ class ShoppingBasketTest {
     void throwsWhenAnyParameterIsNull() {
         HashMap<Book,Quantity> items = new HashMap<>();
         Quantity quantity1 = new Quantity(1);
-        Book book = createTestBook();
+        Book book = getSampleBook(1);
 
         items.put(book,quantity1);
         assertThrows(IllegalArgumentException.class, () -> new ShoppingBasket(null, items));
         assertThrows(IllegalArgumentException.class, () -> new ShoppingBasket(new BasketId(1L), null));
     }
 
-
-    private Book createTestBook() {
-        return new Book(
-                new BookId(1L),
-                new BookIsbn("1234"),
-                new Title("Clean Code"),
-                new Author("Robert Martin"),
-                new PublicationYear(2008)
-        );
-    }
 
 }
