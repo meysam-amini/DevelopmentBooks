@@ -33,32 +33,45 @@ class AddNewBookServiceTest {
         assertThrows(IllegalArgumentException.class,
                 () -> addNewBookService.saveBook(createTestBook(null)));
 
+        Mockito.verify(writeBookPort, Mockito.never()).save(any());
+        Mockito.verify(readBookPort, Mockito.never()).existsByIsbn(any());
+
     }
 
 
     @Test
     void throwsWhenBookAlreadyExists() {
-        fail("no impl");
+        Book book = createTestBook("Spring");
+
+        Mockito.when(readBookPort.existsByIsbn(book.getIsbn().value())).thenReturn(true);
+
+        assertThrows(IllegalArgumentException.class,()-> addNewBookService.saveBook(book));
+
+        Mockito.verify(writeBookPort, Mockito.never()).save(any());
+        Mockito.verify(readBookPort, Mockito.times(1)).existsByIsbn(any());
 
     }
 
 
     @Test
-    void shouldSaveValidBook() {
+    void shouldSaveValidBookAndNonDuplicateByIsbn() {
         Book validBook = createTestBook("OCP");
 
         Mockito.when(writeBookPort.save(validBook)).thenReturn(validBook);
+        Mockito.when(readBookPort.existsByIsbn(validBook.getIsbn().value())).thenReturn(false);
 
-        Book savedBook =addNewBookService.saveBook(validBook);
-        assertEquals(validBook,savedBook);
+        Book savedBook = addNewBookService.saveBook(validBook);
+        assertEquals(validBook, savedBook);
 
-        Mockito.verify(writeBookPort,Mockito.times(1)).save(any());
+        Mockito.verify(writeBookPort, Mockito.times(1)).save(any());
+        Mockito.verify(readBookPort, Mockito.times(1)).existsByIsbn(any());
 
     }
 
 
     private Book createTestBook(String title) {
         return new Book(new BookId(1L)
+                , new BookIsbn("123")
                 , new Title(title)
                 , new Author("Bob")
                 , new PublicationYear(1994));

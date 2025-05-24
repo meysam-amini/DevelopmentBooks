@@ -19,6 +19,10 @@ public class AddNewBookService implements AddNewBookUseCase {
     @Override
     public Book saveBook(Book book) {
 
+        if(readBookPort.existsByIsbn(book.getIsbn().value())){
+            throw new IllegalArgumentException("Book already exists by ISBN!");
+        }
+
         return writeBookPort.save(book);
     }
 }

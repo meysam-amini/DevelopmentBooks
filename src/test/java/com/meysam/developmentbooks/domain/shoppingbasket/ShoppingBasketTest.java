@@ -1,14 +1,12 @@
 package com.meysam.developmentbooks.domain.shoppingbasket;
 
 import com.meysam.developmentbooks.domain.book.*;
-import com.meysam.developmentbooks.domain.shoppingbasket.BasketId;
-import com.meysam.developmentbooks.domain.shoppingbasket.Quantity;
-import com.meysam.developmentbooks.domain.shoppingbasket.ShoppingBasket;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class ShoppingBasketTest {
 
@@ -42,6 +40,7 @@ class ShoppingBasketTest {
     private Book createTestBook() {
         return new Book(
                 new BookId(1L),
+                new BookIsbn("1234"),
                 new Title("Clean Code"),
                 new Author("Robert Martin"),
                 new PublicationYear(2008)

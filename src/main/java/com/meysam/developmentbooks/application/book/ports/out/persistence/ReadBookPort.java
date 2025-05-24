@@ -7,4 +7,6 @@ import java.util.List;
 public interface ReadBookPort {
 
     List<Book> findAll();
+
+    Boolean existsByIsbn(String isbn);
 }
