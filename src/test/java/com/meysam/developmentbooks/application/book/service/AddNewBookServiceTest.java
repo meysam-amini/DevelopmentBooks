@@ -1,19 +1,29 @@
 package com.meysam.developmentbooks.application.book.service;
 
+import com.meysam.developmentbooks.application.book.ports.out.persistence.ReadBookPort;
+import com.meysam.developmentbooks.application.book.ports.out.persistence.WriteBookPort;
 import com.meysam.developmentbooks.domain.book.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 
 @ExtendWith(MockitoExtension.class)
 class AddNewBookServiceTest {
 
 
     @Mock
+    private WriteBookPort writeBookPort;
+
+    @Mock
+    private ReadBookPort readBookPort;
+
+    @InjectMocks
     private AddNewBookService addNewBookService;
 
 
@@ -35,7 +45,15 @@ class AddNewBookServiceTest {
 
     @Test
     void shouldSaveValidBook() {
-        fail("no impl");
+        Book validBook = createTestBook("OCP");
+
+        Mockito.when(writeBookPort.save(validBook)).thenReturn(validBook);
+
+        Book savedBook =addNewBookService.saveBook(validBook);
+        assertEquals(validBook,savedBook);
+
+        Mockito.verify(writeBookPort,Mockito.times(1)).save(any());
+
     }
 
 
