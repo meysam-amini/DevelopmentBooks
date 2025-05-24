@@ -3,7 +3,7 @@ package developmentbooks.domain.shoppingbasket;
 import developmentbooks.domain.book.*;
 import org.junit.jupiter.api.Test;
 
-import java.util.Collections;
+import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -12,33 +12,29 @@ class ShoppingBasketTest {
     @Test
     void createsBasketWithValidParameters() {
         BasketId basketId = new BasketId(1L);
-        BasketItem basketItem = new BasketItem(createTestBook(),new Quantity(1));
+        HashMap<Book,Quantity> items = new HashMap<>();
+        Quantity quantity1 = new Quantity(1);
+        Book book = createTestBook();
 
-        ShoppingBasket basket = new ShoppingBasket(basketId, Collections.singleton(basketItem));
+        items.put(book,quantity1);
 
-        assertEquals(basketId,basket.getId());
-        assertTrue(basket.getItems().stream().anyMatch(basketItem::equals));
+        ShoppingBasket basket = new ShoppingBasket(basketId,items);
+
+        assertEquals(basketId, basket.getId());
+        assertEquals(quantity1,items.get(book));
     }
 
     @Test
     void throwsWhenAnyParameterIsNull() {
-        fail("no impl");
+        HashMap<Book,Quantity> items = new HashMap<>();
+        Quantity quantity1 = new Quantity(1);
+        Book book = createTestBook();
+
+        items.put(book,quantity1);
+        assertThrows(IllegalArgumentException.class, () -> new ShoppingBasket(null, items));
+        assertThrows(IllegalArgumentException.class, () -> new ShoppingBasket(new BasketId(1L), null));
     }
 
-    @Test
-    void shouldAddBookToBasket() {
-        fail("no impl");
-    }
-
-    @Test
-    void shouldIncreaseQuantityWhenAddingSameBook() {
-        fail("no impl");
-    }
-
-    @Test
-    void shouldKeepSeparateEntriesForDifferentBooks() {
-       fail("no impl");
-    }
 
     private Book createTestBook() {
         return new Book(
@@ -48,4 +44,5 @@ class ShoppingBasketTest {
                 new PublicationYear(2008)
         );
     }
+
 }

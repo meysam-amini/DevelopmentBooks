@@ -1,17 +1,23 @@
 package developmentbooks.domain.shoppingbasket;
 
+import developmentbooks.domain.book.Book;
+
 import java.util.*;
 
 public class ShoppingBasket {
 
     private final BasketId id;
-    private final Set<BasketItem> items;
+    private final HashMap<Book,Quantity> items;
 
     public ShoppingBasket(BasketId id) {
-        this(id, new HashSet<>());
+        this(id, new HashMap<>());
     }
 
-    public ShoppingBasket(BasketId id, Set<BasketItem> items) {
+    public ShoppingBasket(BasketId id, HashMap<Book,Quantity> items) {
+        if (id == null || (items == null || items.entrySet().stream().anyMatch(Objects::isNull))) {
+            throw new IllegalArgumentException("ShoppingBasket object contains null BasketId or BasketItem!");
+        }
+
         this.id = id;
         this.items = items;
     }
@@ -21,8 +27,8 @@ public class ShoppingBasket {
         return id;
     }
 
-    public Set<BasketItem> getItems() {
-        return Collections.unmodifiableSet(items);
+    public Map<Book,Quantity> getItems() {
+        return Collections.unmodifiableMap(items);
     }
 
 }
