@@ -1,19 +1,17 @@
 package developmentbooks.domain.shoppingbasket;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class ShoppingBasket {
 
     private final BasketId id;
-    private final List<BasketItem> items;
+    private final Set<BasketItem> items;
 
     public ShoppingBasket(BasketId id) {
-        this(id, new ArrayList<>());
+        this(id, new HashSet<>());
     }
 
-    public ShoppingBasket(BasketId id, List<BasketItem> items) {
+    public ShoppingBasket(BasketId id, Set<BasketItem> items) {
         this.id = id;
         this.items = items;
     }
@@ -23,8 +21,8 @@ public class ShoppingBasket {
         return id;
     }
 
-    public List<BasketItem> getItems() {
-        return Collections.unmodifiableList(items);
+    public Set<BasketItem> getItems() {
+        return Collections.unmodifiableSet(items);
     }
 
 }

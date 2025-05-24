@@ -5,8 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.*;
 
 class ShoppingBasketTest {
 
@@ -15,10 +14,10 @@ class ShoppingBasketTest {
         BasketId basketId = new BasketId(1L);
         BasketItem basketItem = new BasketItem(createTestBook(),new Quantity(1));
 
-        ShoppingBasket basket = new ShoppingBasket(basketId, Collections.singletonList(basketItem));
+        ShoppingBasket basket = new ShoppingBasket(basketId, Collections.singleton(basketItem));
 
         assertEquals(basketId,basket.getId());
-        assertEquals(basketItem,basket.getItems().get(0));
+        assertTrue(basket.getItems().stream().anyMatch(basketItem::equals));
     }
 
     @Test
