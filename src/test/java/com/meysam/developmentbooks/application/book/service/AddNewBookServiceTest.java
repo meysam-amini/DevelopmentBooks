@@ -31,6 +31,17 @@ class AddNewBookServiceTest {
 
 
     @Test
+    void throwsWhenBookObjectIsNull() {
+
+        assertThrows(IllegalArgumentException.class,
+                () -> addNewBookService.saveBook(null));
+
+        Mockito.verify(writeBookPort, Mockito.never()).save(any());
+        Mockito.verify(readBookPort, Mockito.never()).existsByIsbn(any());
+
+    }
+
+    @Test
     void throwsWhenBookObjectIsNotValid() {
 
         assertThrows(IllegalArgumentException.class,
@@ -40,6 +51,7 @@ class AddNewBookServiceTest {
         Mockito.verify(readBookPort, Mockito.never()).existsByIsbn(any());
 
     }
+
 
 
     @Test

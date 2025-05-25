@@ -2,7 +2,9 @@ package com.meysam.developmentbooks.adapters.book.out.persistence;
 
 import com.meysam.developmentbooks.adapters.book.out.persistence.Entity.BookEntity;
 import com.meysam.developmentbooks.domain.book.*;
+import com.meysam.developmentbooks.infrastructure.annotations.Mapper;
 
+@Mapper
 class BookJpaMapper {
 
     BookEntity toJpaEntity(Book book) {

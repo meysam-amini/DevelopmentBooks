@@ -19,6 +19,10 @@ public class AddNewBookService implements AddNewBookUseCase {
     @Override
     public Book saveBook(Book book) {
 
+        if(book == null){
+            throw new IllegalArgumentException("Book object is null!");
+        }
+
         if(readBookPort.existsByIsbn(book.getIsbn().value())){
             throw new IllegalArgumentException("Book already exists by ISBN!");
         }

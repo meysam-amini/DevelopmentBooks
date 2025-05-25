@@ -5,9 +5,9 @@ import com.meysam.developmentbooks.application.book.ports.in.command.CreateBookC
 import com.meysam.developmentbooks.application.book.ports.in.query.FindBooksQuery;
 import com.meysam.developmentbooks.application.book.ports.out.persistence.query.BookSearchCriteria;
 import com.meysam.developmentbooks.domain.book.*;
-import org.springframework.stereotype.Component;
+import com.meysam.developmentbooks.infrastructure.annotations.Mapper;
 
-@Component
+@Mapper
 public class BookWebMapper {
 
     public Book toDomain(CreateBookCommand createBookCommand) {
