@@ -11,7 +11,7 @@ public class Book {
 
     public Book(BookId id, BookIsbn isbn, Title title, Author author, PublicationYear publicationYear) {
 
-        if (id == null || title == null || author == null || publicationYear == null || isbn == null) {
+        if (title == null || author == null || publicationYear == null || isbn == null) {
             throw new IllegalArgumentException("All book parameters must be provided");
         }
 

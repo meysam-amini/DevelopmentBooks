@@ -9,7 +9,7 @@ class BookJpaMapper {
 
     BookEntity toJpaEntity(Book book) {
         return BookEntity.builder()
-                .id(book.getId().value())
+                .id(book.getId() == null ? null : book.getId().value())
                 .isbn(book.getIsbn().value())
                 .title(book.getTitle().value())
                 .author(book.getAuthor().value())
