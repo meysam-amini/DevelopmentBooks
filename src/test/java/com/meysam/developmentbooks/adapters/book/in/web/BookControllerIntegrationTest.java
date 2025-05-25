@@ -17,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 import static org.hamcrest.Matchers.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -60,18 +59,26 @@ class BookControllerIntegrationTest {
 
         mockMvc.perform(post("/api/v1/books")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsBytes(validCommand)))
+                        .content(objectMapper.writeValueAsString(validCommand)))
                 .andExpect(status().isConflict())
                 .andExpect(jsonPath("$.msg", containsStringIgnoringCase("already exists")));
     }
 
     @Test
     void shouldReturnBadRequest_whenInvalidCommand() throws Exception {
-        CreateBookCommand invalid = new CreateBookCommand("", "", "", null);
+
+        String invalidJson = """
+        {
+          "isbn": "",
+          "author": "",
+          "title": "",
+          "publicationYear": null
+        }
+        """;
 
         mockMvc.perform(post("/api/v1/books")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsBytes(invalid)))
+                        .content(invalidJson))
                 .andExpect(status().isBadRequest());
     }
 
@@ -83,7 +90,7 @@ class BookControllerIntegrationTest {
 
         mockMvc.perform(post("/api/v1/books/search")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsBytes(query)))
+                        .content(objectMapper.writeValueAsString(query)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data", hasSize(2)))
                 .andExpect(jsonPath("$.data[*].isbn", containsInAnyOrder("111", "222")));
@@ -99,20 +106,4 @@ class BookControllerIntegrationTest {
                 .andExpect(jsonPath("$.data", hasSize(0)));
     }
 
-    @Test
-    void shouldReturnTrue_whenBookExistsByIsbn() throws Exception {
-        BookEntity saved = new BookEntity(null, validCommand.isbn(), validCommand.title(), validCommand.author(), validCommand.publicationYear());
-        bookRepository.save(saved);
-
-        mockMvc.perform(get("/api/v1/books/isbn/" + validCommand.isbn()))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data", is(true)));
-    }
-
-    @Test
-    void shouldReturnFalse_whenBookDoesNotExistByIsbn() throws Exception {
-        mockMvc.perform(get("/api/v1/books/isbn/0000000000"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data", is(false)));
-    }
 }

@@ -1,5 +1,6 @@
 package com.meysam.developmentbooks.application.book.service;
 
+import com.meysam.developmentbooks.application.book.exception.DuplicateIsbnException;
 import com.meysam.developmentbooks.application.book.ports.out.persistence.ReadBookPort;
 import com.meysam.developmentbooks.application.book.ports.out.persistence.WriteBookPort;
 import com.meysam.developmentbooks.application.book.usecase.AddNewBookUseCase;
@@ -27,7 +28,7 @@ public class AddNewBookService implements AddNewBookUseCase {
         }
 
         if(readBookPort.existsByIsbn(book.getIsbn().value())){
-            throw new IllegalArgumentException(BOOK_ALREADY_EXISTS_BY_ISBN);
+            throw new DuplicateIsbnException(BOOK_ALREADY_EXISTS_BY_ISBN);
         }
 
         return writeBookPort.save(book);

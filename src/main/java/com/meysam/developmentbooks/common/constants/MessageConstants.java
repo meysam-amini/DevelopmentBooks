@@ -8,12 +8,13 @@ public final class MessageConstants {
         private BookMsg() {}
 
         public static final String BOOK_CREATED_SUCCESSFULLY = "Book created successfully";
-        public static final String BOOK_FETCHED_SUCCESSFULLY = "Fetched books successfully";
+        public static final String BOOKS_FETCHED_SUCCESSFULLY = "Fetched books successfully";
         public static final String AUTHOR_CANNOT_BE_BLANK_OR_NULL = "Author cannot be blank or null";
         public static final String ALL_BOOK_PARAMS_REQUIRED = "All book parameters must be provided";
         public static final String BOOK_ID_NEGATIVE = "BookId can't be negative!";
         public static final String BOOK_ISBN_NULL_OR_BLANK = "BookIsbn can't be null or blank!";
         public static final String YEAR_TOO_EARLY = "Year cannot be before 1800";
+        public static final String PUBLICATION_YEAR_NULL = "Publication year cannot be null";
         public static final String YEAR_IN_FUTURE = "Year cannot be in future";
         public static final String TITLE_CANNOT_BE_NULL_OR_BLANK = "Title cannot be null";
         public static final String TITLE_TOO_LONG = "Title exceeds 100 chars";
@@ -34,5 +35,6 @@ public final class MessageConstants {
         private Web() {}
         public static final String SUCCESS = "OK";
         public static final String INTERNAL_SERVER_ERROR = "An unexpected error occurred";
+        public static final String MALFORMED_OR_INVALID_REQUEST_BODY = "Malformed or invalid request body";
     }
 }

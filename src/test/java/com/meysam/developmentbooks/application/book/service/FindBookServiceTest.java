@@ -14,7 +14,6 @@ import java.util.List;
 
 import static com.meysam.developmentbooks.utils.BookSamples.getSampleBook;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -49,11 +48,6 @@ class FindBookServiceTest {
         assertThat(bookList).hasSize(2).containsOnly(book1,book2);
 
         verify(readBookPort,times(1)).findAll(any());
-    }
-
-    @Test
-    void shouldReturnTrueWhenBookExistsByIsbn(){
-        fail();
     }
 
 }

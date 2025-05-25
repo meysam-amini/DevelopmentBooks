@@ -20,6 +20,11 @@ public record CreateBookCommand(
         if (title == null || title.isBlank()) {
             throw new IllegalArgumentException(TITLE_CANNOT_BE_NULL_OR_BLANK);
         }
+
+        if (publicationYear == null) {
+            throw new IllegalArgumentException(PUBLICATION_YEAR_NULL);
+        }
+
         if (publicationYear < 1800) {
             throw new IllegalArgumentException(YEAR_TOO_EARLY);
         }

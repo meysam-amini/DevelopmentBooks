@@ -17,8 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-import static com.meysam.developmentbooks.common.constants.MessageConstants.Book.BOOK_CREATED_SUCCESSFULLY;
-import static com.meysam.developmentbooks.common.constants.MessageConstants.Book.FETCHED_BOOKS_SUCCESSFULLY;
+import static com.meysam.developmentbooks.common.constants.MessageConstants.BookMsg.BOOK_CREATED_SUCCESSFULLY;
+import static com.meysam.developmentbooks.common.constants.MessageConstants.BookMsg.BOOKS_FETCHED_SUCCESSFULLY;
+
 
 @RestController
 @RequestMapping("/api/v1/books")
@@ -51,7 +52,7 @@ public class BookController {
     public ResponseEntity<ApiResponse> searchBooks(@RequestBody FindBooksQuery findBooksQuery) {
         List<Book> books = readBookApiAdapter.findAllBooks(findBooksQuery);
         List<BookDto> dtos = books.stream().map(bookWebMapper::toDto).toList();
-        return ResponseEntity.ok(ApiResponse.success(dtos, FETCHED_BOOKS_SUCCESSFULLY));
+        return ResponseEntity.ok(ApiResponse.success(dtos, BOOKS_FETCHED_SUCCESSFULLY));
     }
 
 

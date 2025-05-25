@@ -1,5 +1,6 @@
 package com.meysam.developmentbooks.application.book.service;
 
+import com.meysam.developmentbooks.application.book.exception.DuplicateIsbnException;
 import com.meysam.developmentbooks.application.book.ports.out.persistence.ReadBookPort;
 import com.meysam.developmentbooks.application.book.ports.out.persistence.WriteBookPort;
 import com.meysam.developmentbooks.domain.book.Book;
@@ -60,7 +61,7 @@ class AddNewBookServiceTest {
 
         Mockito.when(readBookPort.existsByIsbn(book.getIsbn().value())).thenReturn(true);
 
-        assertThrows(IllegalArgumentException.class,()-> addNewBookService.saveBook(book));
+        assertThrows(DuplicateIsbnException.class,()-> addNewBookService.saveBook(book));
 
         Mockito.verify(writeBookPort, Mockito.never()).save(any());
         Mockito.verify(readBookPort, Mockito.times(1)).existsByIsbn(any());

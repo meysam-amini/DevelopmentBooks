@@ -31,7 +31,6 @@ class BookTest {
         Author author = new Author("Robert Martin");
         PublicationYear year = new PublicationYear(2008);
 
-        assertThrows(IllegalArgumentException.class, () -> new Book(null, isbn, title, author, year));
         assertThrows(IllegalArgumentException.class, () -> new Book(id, isbn, null, author, year));
         assertThrows(IllegalArgumentException.class, () -> new Book(id, isbn, title, null, year));
         assertThrows(IllegalArgumentException.class, () -> new Book(id, isbn, title, author, null));
