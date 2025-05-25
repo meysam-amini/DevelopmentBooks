@@ -14,6 +14,7 @@ import java.util.List;
 
 import static com.meysam.developmentbooks.utils.BookSamples.getSampleBook;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -52,14 +53,7 @@ class FindBookServiceTest {
 
     @Test
     void shouldReturnTrueWhenBookExistsByIsbn(){
-
-        when(readBookPort.existsByIsbn(any())).thenReturn(true);
-
-        boolean exists = findBookService.existsByIsbn("test");
-
-        assertThat(exists).isTrue();
-
-        verify(readBookPort,times(1)).existsByIsbn(any());
+        fail();
     }
 
 }

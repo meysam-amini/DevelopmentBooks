@@ -1,6 +1,7 @@
 package com.meysam.developmentbooks.adapters.book.out.persistence;
 
 import com.meysam.developmentbooks.adapters.book.out.persistence.Entity.BookEntity;
+import com.meysam.developmentbooks.application.book.ports.out.persistence.query.BookSearchCriteria;
 import com.meysam.developmentbooks.domain.book.Book;
 import com.meysam.developmentbooks.utils.BookSamples;
 import org.junit.jupiter.api.BeforeEach;
@@ -42,7 +43,7 @@ class ReadBookAdapterTest {
         when(bookRepository.findAll()).thenReturn(List.of(bookEntity));
         when(mapper.toDomain(bookEntity)).thenReturn(book);
 
-        List<Book> result = readBookAdapter.findAll();
+        List<Book> result = readBookAdapter.findAll(BookSearchCriteria.empty());
 
         assertThat(result).isNotEmpty().containsExactly(book);
         verify(bookRepository, times(1)).findAll();
@@ -53,7 +54,7 @@ class ReadBookAdapterTest {
     void shouldReturnEmptyListWhenBooksAreNotPersisted() {
         when(bookRepository.findAll()).thenReturn(Collections.emptyList());
 
-        List<Book> result = readBookAdapter.findAll();
+        List<Book> result = readBookAdapter.findAll(BookSearchCriteria.empty());
 
         assertThat(result).isEmpty();
         verify(bookRepository, times(1)).findAll();
