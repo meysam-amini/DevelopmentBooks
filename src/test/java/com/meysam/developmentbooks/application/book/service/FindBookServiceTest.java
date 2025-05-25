@@ -1,6 +1,7 @@
 package com.meysam.developmentbooks.application.book.service;
 
 import com.meysam.developmentbooks.application.book.ports.out.persistence.ReadBookPort;
+import com.meysam.developmentbooks.application.book.ports.out.persistence.query.BookSearchCriteria;
 import com.meysam.developmentbooks.domain.book.Book;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,12 +27,12 @@ class FindBookServiceTest {
 
     @Test
     void shouldReturnEmptyWhenNoBooksFound(){
-        when(readBookPort.findAll()).thenReturn(new ArrayList<>());
+        when(readBookPort.findAll(any())).thenReturn(new ArrayList<>());
 
-        List<Book> books = findBookService.findAllBooks();
+        List<Book> books = findBookService.findAllBooks(BookSearchCriteria.empty());
         assertThat(books).isEmpty();
 
-        verify(readBookPort,times(1)).findAll();
+        verify(readBookPort,times(1)).findAll(any());
     }
 
 
@@ -40,13 +41,13 @@ class FindBookServiceTest {
         Book book1 = getSampleBook(1);
         Book book2 = getSampleBook(2);
 
-        when(readBookPort.findAll()).thenReturn(List.of(book1,book2));
+        when(readBookPort.findAll(any())).thenReturn(List.of(book1,book2));
 
-        List<Book> bookList = findBookService.findAllBooks();
+        List<Book> bookList = findBookService.findAllBooks(BookSearchCriteria.empty());
 
         assertThat(bookList).hasSize(2).containsOnly(book1,book2);
 
-        verify(readBookPort,times(1)).findAll();
+        verify(readBookPort,times(1)).findAll(any());
     }
 
 }
