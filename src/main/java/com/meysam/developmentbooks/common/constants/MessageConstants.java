@@ -26,6 +26,7 @@ public final class MessageConstants {
     public static final class ShoppingBasketMsg {
         private ShoppingBasketMsg() {}
 
+        public static final String CALCULATE_PRICE_COMMAND_IS_NULL = "CalculateBasketPriceCommand object is null!";
         public static final String BASKET_ID_NOT_POSITIVE = "BasketId value should be a positive number!";
         public static final String QUANTITY_NOT_POSITIVE = "Quantity value should be a positive number!";
         public static final String BASKET_CONTAINS_NULLS = "ShoppingBasket object contains null BasketId or BasketItem!";
