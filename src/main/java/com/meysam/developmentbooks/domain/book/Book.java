@@ -1,5 +1,7 @@
 package com.meysam.developmentbooks.domain.book;
 
+import static com.meysam.developmentbooks.common.constants.MessageConstants.BookMsg.ALL_BOOK_PARAMS_REQUIRED;
+
 public class Book {
 
     private final BookId id;
@@ -12,7 +14,7 @@ public class Book {
     public Book(BookId id, BookIsbn isbn, Title title, Author author, PublicationYear publicationYear) {
 
         if (title == null || author == null || publicationYear == null || isbn == null) {
-            throw new IllegalArgumentException("All book parameters must be provided");
+            throw new IllegalArgumentException(ALL_BOOK_PARAMS_REQUIRED);
         }
 
         this.id = id;

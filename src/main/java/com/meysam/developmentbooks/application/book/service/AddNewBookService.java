@@ -5,6 +5,9 @@ import com.meysam.developmentbooks.application.book.ports.out.persistence.WriteB
 import com.meysam.developmentbooks.application.book.usecase.AddNewBookUseCase;
 import com.meysam.developmentbooks.domain.book.Book;
 
+import static com.meysam.developmentbooks.common.constants.MessageConstants.BookMsg.BOOK_ALREADY_EXISTS_BY_ISBN;
+import static com.meysam.developmentbooks.common.constants.MessageConstants.BookMsg.BOOK_IS_NULL;
+
 public class AddNewBookService implements AddNewBookUseCase {
 
     private final WriteBookPort writeBookPort;
@@ -20,11 +23,11 @@ public class AddNewBookService implements AddNewBookUseCase {
     public Book saveBook(Book book) {
 
         if(book == null){
-            throw new IllegalArgumentException("Book object is null!");
+            throw new IllegalArgumentException(BOOK_IS_NULL);
         }
 
         if(readBookPort.existsByIsbn(book.getIsbn().value())){
-            throw new IllegalArgumentException("Book already exists by ISBN!");
+            throw new IllegalArgumentException(BOOK_ALREADY_EXISTS_BY_ISBN);
         }
 
         return writeBookPort.save(book);

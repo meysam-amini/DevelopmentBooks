@@ -1,5 +1,9 @@
 package com.meysam.developmentbooks.application.book.ports.in.command;
 
+import java.time.Year;
+
+import static com.meysam.developmentbooks.common.constants.MessageConstants.BookMsg.*;
+
 public record CreateBookCommand(
         String isbn,
         String author,
@@ -8,16 +12,21 @@ public record CreateBookCommand(
 ) {
     public CreateBookCommand {
         if (isbn == null || isbn.isBlank()) {
-            throw new IllegalArgumentException("ISBN must not be null or blank");
+            throw new IllegalArgumentException(BOOK_ISBN_NULL_OR_BLANK);
         }
         if (author == null || author.isBlank()) {
-            throw new IllegalArgumentException("Author must not be null or blank");
+            throw new IllegalArgumentException(AUTHOR_CANNOT_BE_BLANK_OR_NULL);
         }
         if (title == null || title.isBlank()) {
-            throw new IllegalArgumentException("Title must not be null or blank");
+            throw new IllegalArgumentException(TITLE_CANNOT_BE_NULL_OR_BLANK);
         }
-        if (publicationYear == null || publicationYear <= 0) {
-            throw new IllegalArgumentException("Publication year must be a positive number");
+        if (publicationYear < 1800) {
+            throw new IllegalArgumentException(YEAR_TOO_EARLY);
         }
+
+        if (publicationYear > Year.now().getValue()) {
+            throw new IllegalArgumentException(YEAR_IN_FUTURE);
+        }
+
     }
 }

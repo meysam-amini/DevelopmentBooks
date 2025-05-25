@@ -6,6 +6,8 @@ import java.util.List;
 
 public class BookSamples {
 
+    private BookSamples() {}
+
     private static final List<Book> SAMPLE_BOOKS = List.of(
             createBook(1L, "132350884", "Clean Code", "Robert Martin", 2008),
             createBook(2L, "201633610", "Design Patterns", "GoF", 1994),

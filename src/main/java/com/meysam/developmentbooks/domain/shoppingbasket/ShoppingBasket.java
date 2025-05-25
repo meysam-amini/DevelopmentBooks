@@ -4,6 +4,8 @@ import com.meysam.developmentbooks.domain.book.Book;
 
 import java.util.*;
 
+import static com.meysam.developmentbooks.common.constants.MessageConstants.ShoppingBasketMsg.BASKET_CONTAINS_NULLS;
+
 public class ShoppingBasket {
 
     private final BasketId id;
@@ -15,7 +17,7 @@ public class ShoppingBasket {
 
     public ShoppingBasket(BasketId id, HashMap<Book,Quantity> items) {
         if (id == null || (items == null || items.entrySet().stream().anyMatch(Objects::isNull))) {
-            throw new IllegalArgumentException("ShoppingBasket object contains null BasketId or BasketItem!");
+            throw new IllegalArgumentException(BASKET_CONTAINS_NULLS);
         }
 
         this.id = id;

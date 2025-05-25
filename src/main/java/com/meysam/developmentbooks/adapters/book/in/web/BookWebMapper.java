@@ -7,12 +7,15 @@ import com.meysam.developmentbooks.application.book.ports.out.persistence.query.
 import com.meysam.developmentbooks.domain.book.*;
 import com.meysam.developmentbooks.infrastructure.annotations.Mapper;
 
+import static com.meysam.developmentbooks.common.constants.MessageConstants.BookMsg.BOOK_IS_NULL;
+import static com.meysam.developmentbooks.common.constants.MessageConstants.BookMsg.CREATE_BOOK_COMMAND_IS_NULL;
+
 @Mapper
 public class BookWebMapper {
 
     public Book toDomain(CreateBookCommand createBookCommand) {
         if (createBookCommand == null)
-            throw new IllegalArgumentException("CreateBookCommand object is null!");
+            throw new IllegalArgumentException(CREATE_BOOK_COMMAND_IS_NULL);
 
         return new Book(
                 null,
@@ -26,7 +29,7 @@ public class BookWebMapper {
     public BookDto toDto(Book book) {
 
         if (book == null)
-            throw new IllegalArgumentException("Book object is null!");
+            throw new IllegalArgumentException(BOOK_IS_NULL);
 
         return BookDto.builder()
                 .id(book.getId() != null ? book.getId().value() : null)
