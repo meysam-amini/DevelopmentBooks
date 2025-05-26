@@ -1,7 +1,6 @@
 # Book Discount Calculator
 
-A Spring Boot app that calculates the price of a shopping basket of books using discount rules.
-
+A Spring Boot app that calculates the price of a shopping basket of books using discount rules. Implemented via TDD approach in Hexagonal  architecture.
 ---
 
 ## Run the App
