@@ -50,26 +50,21 @@ http://localhost:9090/api/v1/books/search \
 
 ### 3. Calculate Basket Price
 
-curl -X POST \
-http://localhost:9090/api/v1/shopping-basket/calculate-price \
+curl -X POST http://localhost:9090/api/v1/shopping-basket/calculate-price \
 -H 'Content-Type: application/json' \
 -d '[
 {
-"book": {
 "isbn": "123",
 "title": "Clean Code",
 "author": "Robert Martin",
-"publicationYear": 2008
-},
+"publicationYear": 2008,
 "quantity": 2
 },
 {
-"book": {
 "isbn": "111",
 "title": "Clean Coder",
 "author": "Robert Martin",
-"publicationYear": 2011
-},
+"publicationYear": 2011,
 "quantity": 1
 }
 ]'
