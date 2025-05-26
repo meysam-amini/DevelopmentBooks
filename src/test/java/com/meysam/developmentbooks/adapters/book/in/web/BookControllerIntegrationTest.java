@@ -28,14 +28,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Transactional
 class BookControllerIntegrationTest {
 
+    private static final String BOOK_BASE_PATH = "/api/v1/books";
+    private static final String BOOK_SEARCH_PATH = BOOK_BASE_PATH + "/search";
+
     @Autowired private MockMvc mockMvc;
     @Autowired private ObjectMapper objectMapper;
     @Autowired private BookRepository bookRepository;
 
     private CreateBookCommand validCommand;
-
-    private FindBooksQuery query = new FindBooksQuery(null, null, null, null,null);
-
+    private final FindBooksQuery query = new FindBooksQuery(null, null, null, null, null);
 
     @BeforeEach
     void setUp() {
@@ -44,7 +45,7 @@ class BookControllerIntegrationTest {
 
     @Test
     void shouldCreateBook_whenValidCommandProvided() throws Exception {
-        mockMvc.perform(post("/api/v1/books")
+        mockMvc.perform(post(BOOK_BASE_PATH)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsBytes(validCommand)))
                 .andExpect(status().isCreated())
@@ -59,7 +60,7 @@ class BookControllerIntegrationTest {
         BookEntity existing = new BookEntity(null, validCommand.isbn(), validCommand.title(), validCommand.author(), validCommand.publicationYear());
         bookRepository.save(existing);
 
-        mockMvc.perform(post("/api/v1/books")
+        mockMvc.perform(post(BOOK_BASE_PATH)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(validCommand)))
                 .andExpect(status().isConflict())
@@ -68,7 +69,6 @@ class BookControllerIntegrationTest {
 
     @Test
     void shouldReturnBadRequest_whenInvalidCommand() throws Exception {
-
         String invalidJson = """
         {
           "isbn": "",
@@ -78,7 +78,7 @@ class BookControllerIntegrationTest {
         }
         """;
 
-        mockMvc.perform(post("/api/v1/books")
+        mockMvc.perform(post(BOOK_BASE_PATH)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(invalidJson))
                 .andExpect(status().isBadRequest());
@@ -90,7 +90,7 @@ class BookControllerIntegrationTest {
         BookEntity b2 = new BookEntity(null, "222", "Title 2", "Author 2", 2002);
         bookRepository.saveAll(List.of(b1, b2));
 
-        mockMvc.perform(post("/api/v1/books/search")
+        mockMvc.perform(post(BOOK_SEARCH_PATH)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(query)))
                 .andExpect(status().isOk())
@@ -100,12 +100,10 @@ class BookControllerIntegrationTest {
 
     @Test
     void shouldReturnEmpty_whenNoBooksExist() throws Exception {
-
-        mockMvc.perform(post("/api/v1/books/search")
+        mockMvc.perform(post(BOOK_SEARCH_PATH)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsBytes(query)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data", hasSize(0)));
     }
-
 }
