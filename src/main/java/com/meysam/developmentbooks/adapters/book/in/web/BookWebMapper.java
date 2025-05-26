@@ -1,9 +1,9 @@
 package com.meysam.developmentbooks.adapters.book.in.web.mapper;
 
-import com.meysam.developmentbooks.adapters.book.in.web.dto.BookDto;
 import com.meysam.developmentbooks.application.book.ports.in.command.CreateBookCommand;
 import com.meysam.developmentbooks.application.book.ports.in.query.FindBooksQuery;
 import com.meysam.developmentbooks.application.book.ports.out.persistence.query.BookSearchCriteria;
+import com.meysam.developmentbooks.adapters.book.in.web.BookDto;
 import com.meysam.developmentbooks.domain.book.*;
 import com.meysam.developmentbooks.infrastructure.annotations.Mapper;
 
@@ -31,14 +31,14 @@ public class BookWebMapper {
         if (book == null)
             throw new IllegalArgumentException(BOOK_IS_NULL);
 
-        return BookDto.builder()
-                .id(book.getId() != null ? book.getId().value() : null)
-                .isbn(book.getIsbn().value())
-                .title(book.getTitle().value())
-                .author(book.getAuthor().value())
-                .publicationYear(book.getPublicationYear().value())
-                .build();
+        return new BookDto(book.getId().value(),
+                book.getIsbn().value(),
+                book.getTitle().value(),
+                book.getAuthor().value(),
+                book.getPublicationYear().value());
+
     }
+
 
     public BookSearchCriteria queryObjectToCriteria(FindBooksQuery findBooksQuery) {
 

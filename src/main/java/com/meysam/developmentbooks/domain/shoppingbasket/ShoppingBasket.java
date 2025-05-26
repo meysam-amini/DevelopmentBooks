@@ -16,7 +16,7 @@ public class ShoppingBasket {
     }
 
     public ShoppingBasket(BasketId id, HashMap<Book,Quantity> items) {
-        if (id == null || (items == null || items.entrySet().stream().anyMatch(Objects::isNull))) {
+        if (items == null || items.entrySet().stream().anyMatch(Objects::isNull)) {
             throw new IllegalArgumentException(BASKET_CONTAINS_NULLS);
         }
 

@@ -27,13 +27,13 @@ class ShoppingBasketTest {
     }
 
     @Test
-    void throwsWhenAnyParameterIsNull() {
+    void throwsWhenAnyItemsAreNull() {
         HashMap<Book,Quantity> items = new HashMap<>();
         Quantity quantity1 = new Quantity(1);
         Book book = getSampleBook(1);
 
         items.put(book,quantity1);
-        assertThrows(IllegalArgumentException.class, () -> new ShoppingBasket(null, items));
+        assertThrows(IllegalArgumentException.class, () -> new ShoppingBasket(null, null));
         assertThrows(IllegalArgumentException.class, () -> new ShoppingBasket(new BasketId(1L), null));
     }
 

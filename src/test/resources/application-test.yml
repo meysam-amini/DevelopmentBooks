@@ -31,3 +31,17 @@ logging:
   level:
     org.hibernate.SQL: DEBUG
     org.hibernate.type.descriptor.sql: TRACE
+
+
+book-shopping-basket:
+  discount-groups:
+    - size: 5
+      discount: 0.25
+    - size: 4
+      discount: 0.20
+    - size: 3
+      discount: 0.10
+    - size: 2
+      discount: 0.05
+    - size: 1
+      discount: 0.0
