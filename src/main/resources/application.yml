@@ -1,33 +1,47 @@
-#server:
-#  port: 9090
-#
-#spring:
-#  datasource:
-#    url: jdbc:h2:mem:devbooksdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
-#    driver-class-name: org.h2.Driver
-#    username: sa
-#    password:
-#
-#  jpa:
-#    hibernate:
-#      ddl-auto: update
-#    show-sql: true
-#    properties:
-#      hibernate:
-#        format_sql: true
-#        dialect: org.hibernate.dialect.H2Dialect
-#        use_sql_comments: true
-#
-#  h2:
-#    console:
-#      enabled: true
-#      path: /h2-console
-#
-#  jackson:
-#    serialization:
-#      indent_output: true
-#
-#logging:
-#  level:
-#    org.hibernate.SQL: DEBUG
-#    org.hibernate.type.descriptor.sql: TRACE
+server:
+  port: 9090
+
+spring:
+  datasource:
+    url: jdbc:h2:mem:devbooksdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.H2Dialect
+        use_sql_comments: true
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+  jackson:
+    serialization:
+      indent_output: true
+
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql: TRACE
+
+
+book-shopping-basket:
+  discount-groups:
+    - size: 5
+      discount: 0.25
+    - size: 4
+      discount: 0.20
+    - size: 3
+      discount: 0.10
+    - size: 2
+      discount: 0.05
+    - size: 1
+      discount: 0.0

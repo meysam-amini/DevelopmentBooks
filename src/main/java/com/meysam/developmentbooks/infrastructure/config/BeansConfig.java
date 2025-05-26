@@ -6,9 +6,9 @@ import com.meysam.developmentbooks.application.book.service.AddNewBookService;
 import com.meysam.developmentbooks.application.book.service.FindBookService;
 import com.meysam.developmentbooks.application.book.usecase.AddNewBookUseCase;
 import com.meysam.developmentbooks.application.book.usecase.FindAllBooksUseCase;
-import com.meysam.developmentbooks.application.shoppingbasket.ports.in.CalculateBasketPriceApiPort;
 import com.meysam.developmentbooks.application.shoppingbasket.service.CalculateBasketPriceService;
 import com.meysam.developmentbooks.application.shoppingbasket.usecase.CalculateBasketPriceUseCase;
+import com.meysam.developmentbooks.domain.shoppingbasket.basketpricecalculation.ShoppingBasketPriceCalculator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -26,7 +26,7 @@ public class BeansConfig {
     }
 
     @Bean
-    public CalculateBasketPriceUseCase calculateBasketPriceUseCase(CalculateBasketPriceApiPort calculateBasketPriceApiPort) {
-        return new CalculateBasketPriceService(calculateBasketPriceApiPort);
+    public CalculateBasketPriceUseCase calculateBasketPriceUseCase(DiscountStrategyFactory discountStrategyFactory) {
+        return new CalculateBasketPriceService(new ShoppingBasketPriceCalculator(discountStrategyFactory));
     }
 }

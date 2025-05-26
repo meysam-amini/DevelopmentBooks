@@ -1,22 +1,27 @@
 package com.meysam.developmentbooks.application.shoppingbasket.service;
 
-import com.meysam.developmentbooks.application.shoppingbasket.ports.in.CalculateBasketPriceApiPort;
 import com.meysam.developmentbooks.application.shoppingbasket.usecase.CalculateBasketPriceUseCase;
 import com.meysam.developmentbooks.domain.shoppingbasket.ShoppingBasket;
+import com.meysam.developmentbooks.domain.shoppingbasket.basketpricecalculation.ShoppingBasketPriceCalculator;
 
 import java.math.BigDecimal;
 
+import static com.meysam.developmentbooks.common.constants.MessageConstants.ShoppingBasketMsg.BASKET_IS_NULL;
+
 public class CalculateBasketPriceService implements CalculateBasketPriceUseCase {
 
-    private final CalculateBasketPriceApiPort calculateBasketPriceApiPort;
+    private final ShoppingBasketPriceCalculator basketPriceCalculator;
 
-    public CalculateBasketPriceService(CalculateBasketPriceApiPort calculateBasketPriceApiPort) {
-        this.calculateBasketPriceApiPort = calculateBasketPriceApiPort;
+    public CalculateBasketPriceService(ShoppingBasketPriceCalculator basketPriceCalculator) {
+        this.basketPriceCalculator = basketPriceCalculator;
     }
 
 
     @Override
     public BigDecimal calculateTotalPrice(ShoppingBasket basket) {
-        return null;
+        if(basket==null){
+            throw new IllegalArgumentException(BASKET_IS_NULL);
+        }
+        return basketPriceCalculator.calculate(basket);
     }
 }
