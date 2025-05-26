@@ -25,7 +25,7 @@ mvn test
 
 ---
 
-## API Usage (via Postman)
+## API Usage (via Postman or terminal)
 
 ### 1. Add a Book
 
