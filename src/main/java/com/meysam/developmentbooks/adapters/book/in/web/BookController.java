@@ -1,6 +1,5 @@
 package com.meysam.developmentbooks.adapters.book.in.web;
 
-import com.meysam.developmentbooks.adapters.book.in.web.mapper.BookWebMapper;
 import com.meysam.developmentbooks.adapters.common.ApiResponse;
 import com.meysam.developmentbooks.adapters.common.ResponseCodeConstants;
 import com.meysam.developmentbooks.application.book.ports.in.command.CreateBookCommand;

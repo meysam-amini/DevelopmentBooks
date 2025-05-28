@@ -1,9 +1,8 @@
-package com.meysam.developmentbooks.adapters.book.in.web.mapper;
+package com.meysam.developmentbooks.adapters.book.in.web;
 
 import com.meysam.developmentbooks.application.book.ports.in.command.CreateBookCommand;
 import com.meysam.developmentbooks.application.book.ports.in.query.FindBooksQuery;
 import com.meysam.developmentbooks.application.book.ports.out.persistence.query.BookSearchCriteria;
-import com.meysam.developmentbooks.adapters.book.in.web.BookDto;
 import com.meysam.developmentbooks.domain.book.*;
 import com.meysam.developmentbooks.infrastructure.annotations.Mapper;
 

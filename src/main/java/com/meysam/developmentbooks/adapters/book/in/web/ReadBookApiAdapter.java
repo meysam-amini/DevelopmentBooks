@@ -6,7 +6,6 @@ import com.meysam.developmentbooks.application.book.ports.out.persistence.query.
 import com.meysam.developmentbooks.application.book.usecase.BookExistsByIsbnUseCase;
 import com.meysam.developmentbooks.application.book.usecase.FindAllBooksUseCase;
 import com.meysam.developmentbooks.domain.book.Book;
-import com.meysam.developmentbooks.adapters.book.in.web.mapper.BookWebMapper;
 import com.meysam.developmentbooks.infrastructure.annotations.Adapter;
 
 import java.util.List;
