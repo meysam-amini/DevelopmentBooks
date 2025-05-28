@@ -1,7 +1,5 @@
-package com.meysam.developmentbooks.adapters.book.in.web;
+package com.meysam.developmentbooks.adapters.common;
 
-import com.meysam.developmentbooks.adapters.common.ApiResponse;
-import com.meysam.developmentbooks.adapters.common.ResponseCodeConstants;
 import com.meysam.developmentbooks.application.book.exception.DuplicateIsbnException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
