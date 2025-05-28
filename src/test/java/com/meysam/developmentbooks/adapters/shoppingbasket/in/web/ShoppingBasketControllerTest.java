@@ -1,7 +1,7 @@
 package com.meysam.developmentbooks.adapters.shoppingbasket.in.web;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.meysam.developmentbooks.adapters.book.in.web.mapper.BookWebMapper;
+import com.meysam.developmentbooks.adapters.book.in.web.BookWebMapper;
 import com.meysam.developmentbooks.application.shoppingbasket.ports.in.command.dto.BookQuantityDto;
 import com.meysam.developmentbooks.application.shoppingbasket.usecase.CalculateBasketPriceUseCase;
 import com.meysam.developmentbooks.domain.book.Book;

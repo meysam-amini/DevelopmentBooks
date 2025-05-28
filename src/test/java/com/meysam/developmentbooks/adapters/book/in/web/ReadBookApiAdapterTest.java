@@ -1,6 +1,5 @@
 package com.meysam.developmentbooks.adapters.book.in.web;
 
-import com.meysam.developmentbooks.adapters.book.in.web.mapper.BookWebMapper;
 import com.meysam.developmentbooks.application.book.ports.in.query.FindBooksQuery;
 import com.meysam.developmentbooks.application.book.ports.out.persistence.query.BookSearchCriteria;
 import com.meysam.developmentbooks.application.book.usecase.BookExistsByIsbnUseCase;

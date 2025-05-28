@@ -6,7 +6,6 @@ import com.meysam.developmentbooks.adapters.common.ApiResponse;
 import com.meysam.developmentbooks.application.book.ports.in.command.CreateBookCommand;
 import com.meysam.developmentbooks.domain.book.Book;
 import com.meysam.developmentbooks.utils.BookSamples;
-import com.meysam.developmentbooks.adapters.book.in.web.mapper.BookWebMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
