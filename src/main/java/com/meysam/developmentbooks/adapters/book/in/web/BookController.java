@@ -5,7 +5,6 @@ import com.meysam.developmentbooks.adapters.common.ResponseCodeConstants;
 import com.meysam.developmentbooks.application.book.ports.in.command.CreateBookCommand;
 import com.meysam.developmentbooks.application.book.ports.in.query.FindBooksQuery;
 import com.meysam.developmentbooks.domain.book.Book;
-import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,7 +37,7 @@ public class BookController {
     }
 
     @PostMapping
-    public ResponseEntity<ApiResponse> createBook(@RequestBody @Valid CreateBookCommand createBookCommand) {
+    public ResponseEntity<ApiResponse> createBook(@RequestBody CreateBookCommand createBookCommand) {
         Book saved = writeBookApiAdapter.save(createBookCommand);
         BookDto dto = bookWebMapper.toDto(saved);
         return ResponseEntity

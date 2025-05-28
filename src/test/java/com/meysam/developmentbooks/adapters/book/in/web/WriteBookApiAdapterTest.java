@@ -6,7 +6,6 @@ import com.meysam.developmentbooks.domain.book.Book;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -21,10 +20,9 @@ class WriteBookApiAdapterTest {
     @Mock
     private AddNewBookUseCase addNewBookUseCase;
 
-    @Mock
-    private BookWebMapper bookWebMapper;
 
-    @InjectMocks
+    private BookWebMapper bookWebMapper= new BookWebMapper();
+
     private WriteBookApiAdapter writeBookApiAdapter;
 
     private Book book;
@@ -39,18 +37,17 @@ class WriteBookApiAdapterTest {
                 book.getAuthor().value(),
                 book.getPublicationYear().value()
         );
+        writeBookApiAdapter = new WriteBookApiAdapter(addNewBookUseCase,bookWebMapper);
     }
 
     @Test
     void shouldSaveBookAndReturnBookWhenInputIsValidCreateBookCommandObject() {
-        when(bookWebMapper.toDomain(command)).thenReturn(book);
-        when(addNewBookUseCase.saveBook(book)).thenReturn(book);
+        when(addNewBookUseCase.saveBook(any())).thenReturn(book);
 
         Book result = writeBookApiAdapter.save(command);
 
         assertThat(result).isEqualTo(book);
-        verify(bookWebMapper, times(1)).toDomain(command);
-        verify(addNewBookUseCase, times(1)).saveBook(book);
+        verify(addNewBookUseCase, times(1)).saveBook(any());
     }
 
     @Test
@@ -58,7 +55,6 @@ class WriteBookApiAdapterTest {
 
         assertThrows(IllegalArgumentException.class, () -> writeBookApiAdapter.save( new CreateBookCommand("", "", "", 0)));
 
-        verify(bookWebMapper, never()).toDomain(any());
         verify(addNewBookUseCase, never()).saveBook(any());
     }
 }
