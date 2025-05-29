@@ -42,16 +42,14 @@ public class ShoppingBasketPriceCalculator {
             List<List<Book>> combinations = combinations(uniqueBooks, size);
             for (List<Book> group : combinations) {
                 Map<Book, Integer> newRemaining = new HashMap<>(remaining);
-                boolean valid = true;
                 for (Book book : group) {
                     int count = newRemaining.get(book);
                     if (count == 1) newRemaining.remove(book);
                     else newRemaining.put(book, count - 1);
                 }
-                if (valid) {
-                    double cost = discountChain.calculate(group) + findMinimalTotal(newRemaining, memory);
-                    minTotal = Math.min(minTotal, cost);
-                }
+                double cost = discountChain.calculate(group) + findMinimalTotal(newRemaining, memory);
+                minTotal = Math.min(minTotal, cost);
+
             }
         }
 
