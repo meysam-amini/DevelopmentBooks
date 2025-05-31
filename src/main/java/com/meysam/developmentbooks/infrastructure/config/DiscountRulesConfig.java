@@ -7,16 +7,16 @@ import java.util.List;
 
 @ConfigurationProperties(prefix = "book-shopping-basket")
 @Component
-public class DiscountProperties {
+public class DiscountRulesConfig {
 
-    private List<GroupDiscountRule> discountGroups;
+    private List<GroupDiscountRule> discountRules;
 
-    public List<GroupDiscountRule> getDiscountGroups() {
-        return discountGroups;
+    public List<GroupDiscountRule> getDiscountRules() {
+        return discountRules;
     }
 
-    public void setDiscountGroups(List<GroupDiscountRule> discountGroups) {
-        this.discountGroups = discountGroups;
+    public void setDiscountRules(List<GroupDiscountRule> discountRules) {
+        this.discountRules = discountRules;
     }
 
     public static class GroupDiscountRule {

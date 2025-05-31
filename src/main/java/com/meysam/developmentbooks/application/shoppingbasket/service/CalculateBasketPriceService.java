@@ -3,6 +3,7 @@ package com.meysam.developmentbooks.application.shoppingbasket.service;
 import com.meysam.developmentbooks.application.shoppingbasket.usecase.CalculateBasketPriceUseCase;
 import com.meysam.developmentbooks.domain.shoppingbasket.ShoppingBasket;
 import com.meysam.developmentbooks.domain.shoppingbasket.basketpricecalculation.ShoppingBasketPriceCalculator;
+import com.meysam.developmentbooks.infrastructure.config.DiscountRulesConfig;
 
 import java.math.BigDecimal;
 
@@ -11,9 +12,12 @@ import static com.meysam.developmentbooks.common.constants.MessageConstants.Shop
 public class CalculateBasketPriceService implements CalculateBasketPriceUseCase {
 
     private final ShoppingBasketPriceCalculator basketPriceCalculator;
+    private final DiscountRulesConfig discountRulesConfig;
 
-    public CalculateBasketPriceService(ShoppingBasketPriceCalculator basketPriceCalculator) {
-        this.basketPriceCalculator = basketPriceCalculator;
+
+    public CalculateBasketPriceService(DiscountRulesConfig discountRulesConfig) {
+        this.basketPriceCalculator = new ShoppingBasketPriceCalculator();
+        this.discountRulesConfig = discountRulesConfig;
     }
 
 
@@ -22,6 +26,6 @@ public class CalculateBasketPriceService implements CalculateBasketPriceUseCase 
         if(basket==null){
             throw new IllegalArgumentException(BASKET_IS_NULL);
         }
-        return basketPriceCalculator.calculate(basket);
+        return basketPriceCalculator.calculate(basket, discountRulesConfig);
     }
 }

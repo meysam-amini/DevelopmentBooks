@@ -5,8 +5,7 @@ import com.meysam.developmentbooks.domain.shoppingbasket.BasketId;
 import com.meysam.developmentbooks.domain.shoppingbasket.Quantity;
 import com.meysam.developmentbooks.domain.shoppingbasket.ShoppingBasket;
 import com.meysam.developmentbooks.domain.shoppingbasket.basketpricecalculation.ShoppingBasketPriceCalculator;
-import com.meysam.developmentbooks.infrastructure.config.DiscountProperties;
-import com.meysam.developmentbooks.infrastructure.config.DiscountStrategyFactory;
+import com.meysam.developmentbooks.infrastructure.config.DiscountRulesConfig;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -25,8 +24,8 @@ public class CalculateBasketPriceServiceTest {
 
     @BeforeEach
     void setUp() {
-        DiscountProperties properties = new DiscountProperties();
-        properties.setDiscountGroups(List.of(
+        DiscountRulesConfig properties = new DiscountRulesConfig();
+        properties.setDiscountRules(List.of(
                 rule(5, 0.25),
                 rule(4, 0.20),
                 rule(3, 0.10),
@@ -34,13 +33,12 @@ public class CalculateBasketPriceServiceTest {
                 rule(1, 0.0)
         ));
 
-        DiscountStrategyFactory factory = new DiscountStrategyFactory(properties);
-        ShoppingBasketPriceCalculator calculator = new ShoppingBasketPriceCalculator(factory);
-        service = new CalculateBasketPriceService(calculator);
+        ShoppingBasketPriceCalculator calculator = new ShoppingBasketPriceCalculator();
+        service = new CalculateBasketPriceService(properties);
     }
 
-    private DiscountProperties.GroupDiscountRule rule(int size, double rate) {
-        DiscountProperties.GroupDiscountRule rule = new DiscountProperties.GroupDiscountRule();
+    private DiscountRulesConfig.GroupDiscountRule rule(int size, double rate) {
+        DiscountRulesConfig.GroupDiscountRule rule = new DiscountRulesConfig.GroupDiscountRule();
         rule.setSize(size);
         rule.setDiscount(rate);
         return rule;
@@ -97,20 +95,19 @@ public class CalculateBasketPriceServiceTest {
         Book b2 = getSampleBook(1);
         Book b3 = getSampleBook(2);
         Book b4 = getSampleBook(3);
+        Book b5 = getSampleBook(4);
 
         HashMap<Book, Quantity> items = new HashMap<>();
         items.put(b1, new Quantity(2));
         items.put(b2, new Quantity(2));
         items.put(b3, new Quantity(2));
         items.put(b4, new Quantity(1));
+        items.put(b5, new Quantity(1));
 
         ShoppingBasket basket = new ShoppingBasket(new BasketId(1L), items);
         BigDecimal total = service.calculateTotalPrice(basket);
 
-        // Group1: b1, b2, b3, b4 → 160
-        // Group2: b1, b2, b3     → 135
-        // Total:                → 295
-        assertThat(total).isEqualByComparingTo("295.0");
+        assertThat(total).isEqualByComparingTo("320.0");
     }
 
 

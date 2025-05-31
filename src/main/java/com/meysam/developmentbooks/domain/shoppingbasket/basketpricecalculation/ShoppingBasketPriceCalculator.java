@@ -2,76 +2,77 @@ package com.meysam.developmentbooks.domain.shoppingbasket.basketpricecalculation
 
 import com.meysam.developmentbooks.domain.book.Book;
 import com.meysam.developmentbooks.domain.shoppingbasket.ShoppingBasket;
-import com.meysam.developmentbooks.infrastructure.config.DiscountStrategyFactory;
+import com.meysam.developmentbooks.infrastructure.config.DiscountRulesConfig;
 
 import java.math.BigDecimal;
 import java.util.*;
-import java.util.stream.Collectors;
+import java.util.logging.Logger;
 
 public class ShoppingBasketPriceCalculator {
 
-    private final GroupDiscount discountChain;
+    private Logger logger = Logger.getLogger(this.getClass().getName());
+    private static final double BOOK_PRICE = 50.0;
+    private HashMap<Integer,Double> discountRulesMap;
 
-    public ShoppingBasketPriceCalculator(DiscountStrategyFactory factory) {
-        this.discountChain = factory.createStrategyChain();
-    }
+    public BigDecimal calculate(ShoppingBasket basket, DiscountRulesConfig discountRulesConfig) {
+        this.discountRulesMap = createDiscountRulesMap(discountRulesConfig);
+        Map<Book, Integer> bookCounts = new HashMap<>();
+        basket.getItems().forEach((book, quantity) -> bookCounts.put(book, quantity.value()));
 
-    public BigDecimal calculate(ShoppingBasket basket) {
-        Map<Book, Integer> bookCounts = basket.getItems().entrySet().stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, e -> e.getValue().value()));
-
-        double total = findMinimalTotal(bookCounts, new HashMap<>());
+        double total = calculateBestTotalPrice(bookCounts);
         return BigDecimal.valueOf(total);
     }
 
-    private double findMinimalTotal(Map<Book, Integer> remaining, Map<Map<Book, Integer>, Double> memory) {
-        if (remaining.isEmpty()) return 0.0;
+    private HashMap<Integer, Double> createDiscountRulesMap(DiscountRulesConfig discountRulesConfig) {
 
-        Map<Book, Integer> stateKey = new HashMap<>(remaining);
-        if (memory.containsKey(stateKey)) {
-            return memory.get(stateKey);
+        HashMap<Integer,Double> h= new HashMap<>();
+        discountRulesConfig.getDiscountRules().forEach(groupDiscountRule -> h.put(groupDiscountRule.getSize(),groupDiscountRule.getDiscount()));
+        return h;
+    }
+
+    private double calculateBestTotalPrice(Map<Book, Integer> bookCounts) {
+        List<Integer> counts = new ArrayList<>(bookCounts.values());
+        return calculateOptimal(counts, new HashMap<>());
+    }
+
+    private double calculateOptimal(List<Integer> counts, Map<List<Integer>, Double> memo) {
+        // Normalize counts for memoization key
+
+        counts = counts.stream().filter(c -> c > 0).sorted(Collections.reverseOrder()).toList();
+
+        if (counts.isEmpty()) return 0.0;
+        if (memo.containsKey(counts)) {
+            System.out.println("map contains already: "+counts);
+            return memo.get(counts);
         }
 
-        double minTotal = Double.MAX_VALUE;
+        double minPrice = Double.MAX_VALUE;
 
-        List<Book> uniqueBooks = new ArrayList<>(remaining.keySet());
-        int n = uniqueBooks.size();
+        System.out.println("bookCounts size: "+counts.size());
+        System.out.println("bookCounts:"+counts);
+        System.out.println(" memo:"+memo);
 
-        // checking subsets of distinct books
-        for (int size = 1; size <= n; size++) {
-            List<List<Book>> combinations = combinations(uniqueBooks, size);
-            for (List<Book> group : combinations) {
-                Map<Book, Integer> newRemaining = new HashMap<>(remaining);
-                for (Book book : group) {
-                    int count = newRemaining.get(book);
-                    if (count == 1) newRemaining.remove(book);
-                    else newRemaining.put(book, count - 1);
-                }
-                double cost = discountChain.calculate(group) + findMinimalTotal(newRemaining, memory);
-                minTotal = Math.min(minTotal, cost);
 
+        for (int size = counts.size(); size >= 1; size--) {
+            List<Integer> remaining = new ArrayList<>(counts);
+            for (int i = 0; i < size; i++) {
+                remaining.set(i, remaining.get(i) - 1);
             }
+
+
+            double discount = getDiscountByGroupSize(size);
+            double groupPrice = size * BOOK_PRICE * (1 - discount);
+            System.out.println("go to calculate remaining :"+remaining);
+            double totalPrice = groupPrice + calculateOptimal(remaining, memo);
+
+            minPrice = Math.min(minPrice, totalPrice);
         }
 
-        memory.put(stateKey, minTotal);
-        return minTotal;
+        memo.put(counts, minPrice);
+        return minPrice;
     }
 
-    private List<List<Book>> combinations(List<Book> books, int size) {
-        List<List<Book>> result = new ArrayList<>();
-        backtrack(books, size, 0, new ArrayList<>(), result);
-        return result;
-    }
-
-    private void backtrack(List<Book> books, int size, int start, List<Book> current, List<List<Book>> result) {
-        if (current.size() == size) {
-            result.add(new ArrayList<>(current));
-            return;
-        }
-        for (int i = start; i < books.size(); i++) {
-            current.add(books.get(i));
-            backtrack(books, size, i + 1, current, result);
-            current.remove(current.size() - 1);
-        }
+    private double getDiscountByGroupSize(Integer size) {
+        return discountRulesMap.get(size);
     }
 }

@@ -1,35 +1,32 @@
-package com.meysam.developmentbooks.infrastructure.config;
-
-import com.meysam.developmentbooks.domain.shoppingbasket.basketpricecalculation.FixedGroupSizeDiscount;
-import com.meysam.developmentbooks.domain.shoppingbasket.basketpricecalculation.GroupDiscount;
-import com.meysam.developmentbooks.domain.shoppingbasket.basketpricecalculation.OptimalGroupDiscount;
-import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-
-@Component
-public class DiscountStrategyFactory {
-
-    private final DiscountProperties properties;
-
-    public DiscountStrategyFactory(DiscountProperties properties) {
-        this.properties = properties;
-    }
-
-
-    public GroupDiscount createStrategyChain() {
-        List<DiscountProperties.GroupDiscountRule> rules = new ArrayList<>(properties.getDiscountGroups());
-
-        // Sort rules by grouping size(5, 4, 3...)
-        rules.sort(Comparator.comparingInt(DiscountProperties.GroupDiscountRule::getSize).reversed());
-
-        List<GroupDiscount> strategies = new ArrayList<>();
-        for (DiscountProperties.GroupDiscountRule rule : rules) {
-            strategies.add(new FixedGroupSizeDiscount(rule.getSize(), rule.getDiscount()));
-        }
-
-        return new OptimalGroupDiscount(strategies);
-    }
-}
+//package com.meysam.developmentbooks.infrastructure.config;
+//
+//import com.meysam.developmentbooks.domain.book.Book;
+//import com.meysam.developmentbooks.domain.shoppingbasket.basketpricecalculation.GroupDiscount;
+//import com.meysam.developmentbooks.infrastructure.config.DiscountProperties;
+//import org.springframework.stereotype.Component;
+//
+//import java.util.HashMap;
+//import java.util.List;
+//import java.util.Map;
+//import java.util.function.Function;
+//
+//public class DiscountStrategyFactory {
+//
+//    private final DiscountProperties properties;
+//
+//    public DiscountStrategyFactory(DiscountProperties properties) {
+//        this.properties = properties;
+//    }
+//
+//    public Map<Integer, Function<List<Book>, Double>> createDiscountMap() {
+//        Map<Integer, Function<List<Book>, Double>> map = new HashMap<>();
+//
+//        for (DiscountProperties.GroupDiscountRule rule : properties.getDiscountGroups()) {
+//            int size = rule.getSize();
+//            double discount = rule.getDiscount();
+//            map.put(size, group -> group.size() * GroupDiscount.UNIT_PRICE * (1 - discount));
+//        }
+//
+//        return map;
+//    }
+//}

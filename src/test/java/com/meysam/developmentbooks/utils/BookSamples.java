@@ -12,7 +12,8 @@ public class BookSamples {
             createBook(1L, "132350884", "Clean Code", "Robert Martin", 2008),
             createBook(2L, "201633610", "Design Patterns", "GoF", 1994),
             createBook(3L, "134494166", "Clean Architecture", "Robert Martin", 2017),
-            createBook(4L, "321125217", "Domain-Driven Design", "Eric Evans", 2003)
+            createBook(4L, "321125217", "Domain-Driven Design", "Eric Evans", 2003),
+            createBook(5L, "3211254217", "Domain-Driven Design2", "Eric Evans", 2003)
     );
 
     public static Book createBook(Long id, String isbn, String title,
