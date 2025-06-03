@@ -34,7 +34,7 @@ logging:
 
 
 book-shopping-basket:
-  discount-groups:
+  discount-rules:
     - size: 5
       discount: 0.25
     - size: 4
