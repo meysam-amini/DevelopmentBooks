@@ -36,13 +36,11 @@ public class ShoppingBasketPriceCalculator {
     }
 
     private double calculateOptimal(List<Integer> counts, Map<List<Integer>, Double> memo) {
-        // Normalize counts for memoization key
 
         counts = counts.stream().filter(c -> c > 0).sorted(Collections.reverseOrder()).toList();
 
         if (counts.isEmpty()) return 0.0;
         if (memo.containsKey(counts)) {
-            System.out.println("map contains already: "+counts);
             return memo.get(counts);
         }
 
