@@ -17,6 +17,8 @@ cache:
 build:
   stage: build
   image: maven:3.9.5-eclipse-temurin-21
+  tags:
+    - maven
   script:
     - mvn $MAVEN_CLI_OPTS clean package -DskipTests
 
@@ -24,6 +26,8 @@ build:
 unit-tests:
   stage: unit-tests
   image: maven:3.9.5-eclipse-temurin-21
+  tags:
+    - maven
   script:
     - mvn $MAVEN_CLI_OPTS test
 
@@ -31,8 +35,13 @@ unit-tests:
 integration-tests:
   stage: integration-tests
   image: maven:3.9.5-eclipse-temurin-21
+  tags:
+    - maven
   script:
-    - mvn $MAVEN_CLI_OPTS failsafe:integration-test
+    - echo "Running Integration Tests..."
+    - mvn failsafe:integration-test failsafe:verify
+  only:
+    - main
 
 # Deploy stage
 deploy:
@@ -42,6 +51,8 @@ deploy:
     - docker:dind
   variables:
     DOCKER_HOST: tcp://docker:2375
+  tags:
+    - maven
   before_script:
     - docker info
   script:
