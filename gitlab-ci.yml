@@ -1,0 +1,49 @@
+stages:
+  - build
+  - unit-tests
+  - integration-tests
+  - deploy
+
+variables:
+  MAVEN_CLI_OPTS: "-B"
+  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
+  IMAGE_NAME: "developmentbooks:latest"
+
+cache:
+  paths:
+    - .m2/repository
+
+# Build stage
+build:
+  stage: build
+  image: maven:3.9.5-eclipse-temurin-21
+  script:
+    - mvn $MAVEN_CLI_OPTS clean package -DskipTests
+
+# Unit Tests stage
+unit-tests:
+  stage: unit-tests
+  image: maven:3.9.5-eclipse-temurin-21
+  script:
+    - mvn $MAVEN_CLI_OPTS test
+
+# Integration Tests stage
+integration-tests:
+  stage: integration-tests
+  image: maven:3.9.5-eclipse-temurin-21
+  script:
+    - mvn $MAVEN_CLI_OPTS failsafe:integration-test
+
+# Deploy stage
+deploy:
+  stage: deploy
+  image: docker:20.10.24
+  services:
+    - docker:dind
+  variables:
+    DOCKER_HOST: tcp://docker:2375
+  before_script:
+    - docker info
+  script:
+    - docker build -t $IMAGE_NAME .
+    - docker run -d -p 9090:9090 $IMAGE_NAME
