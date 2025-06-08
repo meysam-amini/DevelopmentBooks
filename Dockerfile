@@ -17,6 +17,7 @@ WORKDIR /app
 # Copy the jar from builder stage
 COPY --from=builder /app/target/*.jar app.jar
 
+
 # Expose application port
 EXPOSE 9090
 

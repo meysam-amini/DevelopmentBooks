@@ -40,17 +40,13 @@ integration-tests:
   script:
     - echo "Running Integration Tests..."
     - mvn failsafe:integration-test failsafe:verify
-  only:
-    - main
 
 # Deploy stage
 deploy:
   stage: deploy
   image: docker:20.10.24
-  services:
-    - docker:dind
   variables:
-    DOCKER_HOST: tcp://docker:2375
+    DOCKER_HOST: unix:///var/run/docker.sock
   tags:
     - maven
   before_script:
